@@ -10,26 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        drawerTheme: const DrawerThemeData(scrimColor: Colors.transparent),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Exercise UI',
+      home: const MyHomePage(title: 'UI Exercise'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -38,68 +30,419 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      key: _globalKey,
+      backgroundColor: Colors.black12,
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 70,
+                  left: 5,
+                  right: 5,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        _globalKey.currentState!.openDrawer();
+                      },
+                      icon: const Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 50,
+                child: ListView(
+                  padding: const EdgeInsets.only(left: 10),
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Messages',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Online',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    TextButton(
+                      child: const Text(
+                        'Groups',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                      onPressed: () {},
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    TextButton(
+                      child: const Text(
+                        'More',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          Positioned(
+            top: 200,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.only(
+                top: 15,
+                left: 25,
+                right: 25,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.amberAccent,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
+              ),
+              height: 220,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text(
+                        'Recents',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.more_horiz,
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 100,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        buildContactAvatar('Jessica', 'img1.jpeg'),
+                        buildContactAvatar('Maria', 'img2.jpeg'),
+                        buildContactAvatar('Jorge', 'img3.jpeg'),
+                        buildContactAvatar('Naya', 'img5.jpeg'),
+                        buildContactAvatar('Jairo', 'img6.jpeg'),
+                        buildContactAvatar('Lucas', 'img7.jpeg'),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 370,
+            right: 0,
+            left: 0,
+            bottom: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
+              ),
+              child: ListView(
+                padding: const EdgeInsets.only(left: 25),
+                children: [
+                  buildChatRow('Jessica', 'img1.jpeg', 0, 'Yesterday?'),
+                  buildChatRow('Maria', 'img2.jpeg', 3, 'Hey! How are you?'),
+                  buildChatRow(
+                      'Jorge', 'img3.jpeg', 3, 'How much did you spend?'),
+                  buildChatRow('Naya', 'img5.jpeg', 0, 'Bullllll'),
+                  buildChatRow(
+                      'Jairo', 'img6.jpeg', 3, 'Hahahahah youre funny'),
+                  buildChatRow('Lucas', 'img7.jpeg', 3, 'O no, was my mom'),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.amberAccent,
+        child: const Icon(Icons.edit_outlined),
+        onPressed: () {},
+      ),
+      drawer: Drawer(
+        width: 275,
+        backgroundColor: Colors.black,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.horizontal(
+            right: Radius.circular(40),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      SizedBox(
+                        width: 56,
+                      ),
+                      Text(
+                        'Back',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 70,
+                  ),
+                  Row(
+                    children: const [
+                      UserAvatar(filename: 'img6.jpeg'),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        'Jairo',
+                        style: TextStyle(color: Colors.white, fontSize: 30),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 70,
+                  ),
+                  const DrawerItem(
+                    icon: Icons.key,
+                    name: 'Account',
+                  ),
+                  const DrawerItem(
+                    icon: Icons.chat,
+                    name: 'Chats',
+                  ),
+                  const DrawerItem(
+                    icon: Icons.notifications,
+                    name: 'Notifications',
+                  ),
+                  const DrawerItem(
+                    icon: Icons.storage,
+                    name: 'Data and Storage',
+                  ),
+                  const DrawerItem(
+                    icon: Icons.help,
+                    name: 'Help',
+                  ),
+                  const Divider(
+                    color: Colors.amberAccent,
+                    height: 30,
+                  ),
+                  const DrawerItem(
+                    icon: Icons.people_alt_outlined,
+                    name: 'Invite a friend',
+                  ),
+                ],
+              ),
+              const DrawerItem(
+                icon: Icons.logout,
+                name: 'Log out',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Column buildChatRow(
+      String name, String filename, int msgCount, String message) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                UserAvatar(filename: filename),
+                const SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(name),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(message),
+                  ],
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 25, top: 5),
+              child: Column(
+                children: <Widget>[
+                  const Text(
+                    '12:35',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 10,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  if (msgCount > 0)
+                    CircleAvatar(
+                      radius: 8,
+                      backgroundColor: Colors.amberAccent,
+                      child: Text(
+                        msgCount.toString(),
+                        style: const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const Divider(
+          indent: 70,
+        )
+      ],
+    );
+  }
+
+  Padding buildContactAvatar(String name, String filename) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 32,
+            backgroundColor: Colors.white,
+            child: UserAvatar(
+              filename: filename,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(name),
+        ],
+      ),
+    );
+  }
+}
+
+class DrawerItem extends StatelessWidget {
+  final IconData icon;
+  final String name;
+
+  const DrawerItem({
+    super.key,
+    required this.icon,
+    required this.name,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 26),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+              size: 20,
+            ),
+            const SizedBox(
+              width: 35,
             ),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              name,
+              style: const TextStyle(color: Colors.white),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class UserAvatar extends StatelessWidget {
+  const UserAvatar({
+    super.key,
+    required this.filename,
+  });
+
+  final String filename;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 30,
+      backgroundImage: Image.asset('assets/images/$filename').image,
     );
   }
 }
